@@ -1,0 +1,128 @@
+# Caddy Server Configuration File
+# File: Caddyfile
+#
+# Server: Caddy 2.7.x+
+# Features: Automatic HTTPS, security headers, reverse proxy
+# Purpose: Production-ready web server with built-in security
+
+# Global configuration
+{
+  # Maximum concurrent connections
+  grace_period 15s
+  
+  # Logging configuration
+  log {
+    level INFO
+    output stdout
+    format json
+  }
+  
+  # Security settings
+  servers {
+    # Timeouts
+    read_timeout 10s
+    read_header_timeout 5s
+    write_timeout 10s
+    idle_timeout 5s
+    
+    # Disable HTTP/1.0
+    protocol {
+      allow_h2c
+    }
+  }
+}
+
+# ====================================================
+# HTTPS Website (Auto-renewing with Let's Encrypt)
+# ====================================================
+https://yourdomain.com, https://www.yourdomain.com {
+  
+  # ====================================================
+  # TLS Configuration
+  # ====================================================
+  tls {
+    # Protocols: TLS 1.2 and 1.3 only
+    protocols tls1.2 tls1.3
+    
+    # Strong cipher suites
+    ciphers ECDHE_RSA_AES_256_GCM_SHA384 ECDHE_RSA_AES_128_GCM_SHA256 ECDHE_RSA_CHACHA20_POLY1305
+  }
+
+  # ====================================================
+  # Security Headers
+  # ====================================================
+  
+  # Prevent MIME-type sniffing
+  header X-Content-Type-Options nosniff
+  
+  # Clickjacking protection
+  header X-Frame-Options DENY
+  
+  # Content Security Policy
+  header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none';"
+  
+  # Legacy XSS filter
+  header X-XSS-Protection "1; mode=block"
+  
+  # HSTS - Enforce HTTPS
+  header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+  
+  # Referrer Policy
+  header Referrer-Policy "strict-origin-when-cross-origin"
+  
+  # Cache Control
+  header Cache-Control "no-store, no-cache, must-revalidate"
+  header Pragma "no-cache"
+  
+  # Permissions Policy
+  header Permissions-Policy "geolocation=(), microphone=(), camera=()"
+
+  # ====================================================
+  # Root Directory & Index
+  # ====================================================
+  root * /var/www/yourdomain.com/html
+  file_server
+
+  # ====================================================
+  # Enable Compression
+  # ====================================================
+  encode gzip
+
+  # ====================================================
+  # Error Handling
+  # ====================================================
+  handle_errors {
+    rewrite * /error.html
+    file_server
+  }
+
+  # ====================================================
+  # Logging
+  # ====================================================
+  log {
+    output file /var/log/caddy/yourdomain.com-access.log {
+      roll_size 10mb
+      roll_keep 10
+      roll_keep_for 720h
+    }
+    format console
+  }
+
+}
+
+# ====================================================
+# HTTP → HTTPS Redirect
+# ====================================================
+http://yourdomain.com, http://www.yourdomain.com {
+  redir https://yourdomain.com{uri} permanent
+}
+
+# ====================================================
+# Optional: Reverse Proxy Example (if backend exists)
+# ====================================================
+# https://api.yourdomain.com {
+#   reverse_proxy localhost:3000 {
+#     header_uri X-Forwarded-For {http.request.header.X-Forwarded-For}
+#     header_uri X-Forwarded-Proto https
+#   }
+# }

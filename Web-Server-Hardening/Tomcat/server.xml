@@ -1,0 +1,71 @@
+# Apache Tomcat SSL Connector Configuration
+# File: CATALINA_BASE/conf/server.xml
+# 
+# Server: Apache Tomcat 10.x / 11.x (Java 11+)
+# TLS: 1.2 and 1.3
+# Purpose: SSL/TLS connector + security hardening
+
+<?xml version="1.0" encoding="UTF-8"?>
+<Server port="8005" shutdown="SHUTDOWN">
+
+  <!-- SSL Connector on port 8443 -->
+  <Connector 
+      port="8443" 
+      protocol="org.apache.coyote.http11.Http11NioProtocol"
+      maxThreads="150"
+      scheme="https"
+      secure="true"
+      SSLEnabled="true"
+      keystoreFile="/path/to/keystore.jks"
+      keystorePass="CHANGE_ME"
+      keyAlias="tomcat"
+      
+      <!-- TLS Protocols: 1.2 and 1.3 only -->
+      sslProtocol="TLSv1.2,TLSv1.3"
+      
+      <!-- Ciphers: Strong, modern ciphers -->
+      ciphers="ECDHE-RSA-AES256-GCM-SHA384,ECDHE-ECDSA-AES256-GCM-SHA384,ECDHE-RSA-AES128-GCM-SHA256,ECDHE-ECDSA-AES128-GCM-SHA256,ECDHE-RSA-CHACHA20-POLY1305,ECDHE-ECDSA-CHACHA20-POLY1305"
+      
+      <!-- Session cache -->
+      sessionCacheSize="50000"
+      
+      <!-- Disable SSL session tickets -->
+      sessionTicketKey=""
+      
+      <!-- HTTP/2 support (optional) -->
+      useAsyncIO="true"
+      
+      <!-- Security headers (can also be done in web.xml filter) -->
+      connectionTimeout="20000" />
+
+  <!-- AJP Connector for reverse proxy (optional) -->
+  <Connector port="8009" protocol="AJP/1.3" redirectPort="8443" />
+
+  <!-- HTTP Connector (redirect to HTTPS) - optional -->
+  <Connector 
+      port="8080" 
+      protocol="HTTP/1.1"
+      connectionTimeout="20000"
+      redirectPort="8443"
+      address="127.0.0.1" />
+
+  <Engine name="Catalina" defaultHost="localhost">
+
+    <!-- Realm: Authentication mechanism -->
+    <Realm className="org.apache.catalina.realm.LockOutRealm">
+      <Realm className="org.apache.catalina.realm.UserDatabaseRealm"
+             resourceName="UserDatabase"/>
+    </Realm>
+
+    <!-- Host configuration -->
+    <Host name="localhost" appBase="webapps"
+          unpackWARs="true" autoDeploy="true">
+      
+      <!-- Context for each application -->
+      <Context path="" docBase="ROOT" reloadable="false" />
+
+    </Host>
+
+  </Engine>
+
+</Server>
