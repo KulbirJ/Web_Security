@@ -1,0 +1,82 @@
+# F5 Advanced WAF Custom Rules Repository - Git Ignore Rules
+# This file excludes sensitive, temporary, and system files from version control
+
+# ============================================================================
+# SENSITIVE/CREDENTIALS
+# ============================================================================
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.cert
+secrets/
+.env
+.env.local
+.env.*.local
+credentials.json
+auth_tokens.txt
+bigip_credentials.conf
+
+# ============================================================================
+# SYSTEM & IDE FILES
+# ============================================================================
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+*.sublime-*
+*.iml
+.project
+.classpath
+.c9/
+*.pyc
+__pycache__/
+*.pyo
+*.so
+
+# ============================================================================
+# BUILD & DEPLOYMENT ARTIFACTS
+# ============================================================================
+build/
+dist/
+*.tar.gz
+*.zip
+node_modules/
+venv/
+env/
+.venv
+
+# ============================================================================
+# LOGS & TEMPORARY FILES
+# ============================================================================
+*.log
+logs/
+tmp/
+temp/
+*.tmp
+.cache/
+
+# ============================================================================
+# F5 SPECIFIC ARTIFACTS (TEMPORARY)
+# ============================================================================
+*.qkview
+*.ucs
+*.qkstore
+backup/
+restore/
+tmp_policies/
+test_output/
+
+# ============================================================================
+# DOCUMENTATION BUILD ARTIFACTS
+# ============================================================================
+docs/_build/
+docs/.doctrees/
+
+# ============================================================================
+# COMMENTS: Additional directories can be added as needed per environment
+# ============================================================================
