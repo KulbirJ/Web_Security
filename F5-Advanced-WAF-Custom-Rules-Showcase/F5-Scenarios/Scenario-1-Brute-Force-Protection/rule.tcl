@@ -2,7 +2,7 @@
 # F5 Advanced WAF - Scenario 1: Brute-Force & Credential Stuffing Protection
 # File: rule.tcl
 # Description: Protects /login endpoint against brute-force attacks
-# Author: Senior F5 WAF Consultant
+# Author: Kulbir Jaglan
 # Version: 1.0
 # TMOS Compatibility: 17.5.x
 # Deployment: Advanced WAF (ASM) iRule with event handling
