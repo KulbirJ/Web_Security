@@ -3,7 +3,7 @@
 # F5 Advanced WAF Custom Rules - Automated Deployment Script
 # File: deploy-all.sh
 # Description: Orchestrates deployment of all three scenarios to BIG-IP
-# Author: Senior F5 WAF Consultant
+# Author: Kulbir Jaglan
 # Version: 1.0
 # Usage: ./deploy-all.sh <BIG_IP_HOST> <USERNAME> <PASSWORD> <POLICY_NAME>
 ###############################################################################
