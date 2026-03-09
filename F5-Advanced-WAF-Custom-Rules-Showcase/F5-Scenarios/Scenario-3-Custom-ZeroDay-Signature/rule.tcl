@@ -2,7 +2,7 @@
 # F5 Advanced WAF - Scenario 3: Custom Zero-Day Signature (Log4Shell Pattern)
 # File: rule.tcl
 # Description: Detects and blocks JNDI injection patterns (Log4Shell-style)
-# Author: Senior F5 WAF Consultant
+# Author: Kulbir Jaglan
 # Version: 1.0
 # TMOS Compatibility: 17.5.x
 # Deployment: Advanced WAF (ASM) iRule with event handling
