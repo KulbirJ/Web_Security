@@ -2,7 +2,7 @@
 # F5 Advanced WAF - Scenario 2: API Security (JWT Validation & Rate Limiting)
 # File: rule.tcl
 # Description: Protects /api/v2/* endpoints with JWT validation and rate limiting
-# Author: Senior F5 WAF Consultant
+# Author: Kulbir Jaglan
 # Version: 1.0
 # TMOS Compatibility: 17.5.x
 # Deployment: Advanced WAF (ASM) iRule with event handling
