@@ -3,7 +3,7 @@
 # File: rule.tcl
 # CVE: CVE-2023-50164 (File Upload RCE)
 # Description: Validates file uploads and detects malicious file handling
-# Author: Senior F5 WAF Consultant
+# Author: Kulbir Jaglan
 # Version: 1.0
 # TMOS Compatibility: 17.5.x
 # Deployment: Advanced WAF (ASM) iRule with file validation
