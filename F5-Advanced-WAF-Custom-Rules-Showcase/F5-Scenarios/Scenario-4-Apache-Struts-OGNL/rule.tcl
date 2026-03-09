@@ -3,7 +3,7 @@
 # File: rule.tcl
 # CVE: CVE-2017-5638 (Remote Code Execution via OGNL)
 # Description: Detects and blocks OGNL expression language injection attempts
-# Author: Senior F5 WAF Consultant
+# Author: Kulbir Jaglan
 # Version: 1.0
 # TMOS Compatibility: 17.5.x
 # Deployment: Advanced WAF (ASM) iRule with event handling
